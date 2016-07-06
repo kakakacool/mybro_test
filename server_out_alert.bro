@@ -63,18 +63,31 @@ event connection_state_remove(c: connection) &priority=-10
 
       if ( c$id$orig_h in serversubnet )
       {
-       local rec: ServerOutAlert::Info = [
-                        $ts=network_time(),
-                        $uid=c$uid,
-                        $id=c$id,
-                        $proto=c$conn$proto,
-                        $service=c$conn$service,
-                        $duration=c$conn$duration,
-                        $orig_ip_bytes=c$conn$orig_ip_bytes,
-                        $conn_state=c$conn$conn_state
-                    ];
+      	if (c?$conn)
+      		{
+      			
+		       local rec: ServerOutAlert::Info = [
+                  $ts=network_time(),
+                  $uid=c$uid,
+                  $id=c$id,
+                  $proto=c$conn$proto
+              ];
+      		
+      		if(c$conn?$service)
+      			rec$service=c$conn$service; 
+      			
+      		if(c$conn?$duration)
+      			rec$duration=c$conn$duration;
+      			
+      		if(c$conn?$orig_ip_bytes)
+      			rec$orig_ip_bytes=c$conn$orig_ip_bytes;
+      		
+      		if(c$conn?$conn_state)
+      			rec$conn_state=c$conn$conn_state;
+      			
 
-        Log::write(ServerOutAlert::LOG, rec);
+		      Log::write(ServerOutAlert::LOG, rec);
+        }
 	}
 
     }   
