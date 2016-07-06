@@ -3,7 +3,7 @@
 @load base/utils/site
 module ServerOutAlert;
 
-const ServerSubnets: set[subnet] = {192.168.0.0/16, 10.0.0.0/8, 115.182.0.0/16,101.251.0.0/16} &redef;
+const ServerSubnets: set[subnet] = {192.168.0.0/16, 10.0.0.0/8} &redef;
 const whiteportlist: set[port] ={80/tcp,443/tcp,53/udp,5353/udp, 25/tcp};
 
 redef Site::local_nets =  {192.168.0.0/16, 10.0.0.0/8};
